@@ -1,0 +1,126 @@
+class BST:
+        def __init__(self,Sno,name,role,salary):
+                self.Sno=Sno
+                self.name=name
+                self.role=role
+                self.salary=salary
+                self.lchild=None
+                self.rchild=None
+        
+        def insert(self,Sno,name,role,salary):
+                        if self.Sno is None:
+                                self.Sno = Sno
+                                self.name = name
+                                self.role = role
+                                self.salary = salary
+                                return
+                        if self.Sno == Sno:
+                                return
+                        if self.Sno > Sno:
+                                if self.lchild:
+                                        self.lchild.insert(Sno,name,role,salary)
+                                else:
+                                        self.lchild = BST(Sno,name,role,salary)
+                        else:
+                                if self.rchild:
+                                        self.rchild.insert(Sno,name,role,salary)
+                                else:
+                                        self.rchild = BST(Sno,name,role,salary)
+        def display(self,Id):
+                
+                print("ID    NAME      ROLE     SALARY")
+                print(self.Sno," ",self.name," ",self.role," ",self.salary)
+
+
+        def delete(self,data):
+                if self.Sno is None:
+                        print("Tree is empty!")
+                        return
+                if data < self.Sno:
+                        if self.lchild:
+                                self.lchild = self.lchild.delete(data)
+                        else:
+                                print("Given Node is not present in the tree")
+                elif data >self.Sno:
+                        if self.rchild:
+                                self.rchild = self.rchild.delete(data)
+                        else:
+                                print("Given node is nor present in the tree!")
+                else:
+                        if self.lchild is None:
+                                temp = self.rchild
+                                self = None
+                                return temp
+                        if self.rchild is None:
+                                temp = self.lchild
+                                self = None
+                                return temp
+                        node = self.rchild
+                        while node.lchild:
+                                node = node.lchild
+                        self.Sno = node.Sno
+                        self.rchild = self.rchild.delete(node.Sno)
+                return self
+        def preorder(self):
+                print(self.Sno)
+                if self.lchild:
+                        self.lchild.preorder()
+                if self.rchild:
+                        self.rchild.preorder()
+        def inorder(self):
+                if self.lchild:
+                        self.lchild.inorder()
+                print(self.Sno)
+                if self.rchild:
+                        self.rchild.inorder()
+        def postorder(self):
+                if self.lchild:
+                        self.lchild.postorder()
+                if self.rchild:
+                        self.rchild.postorder()
+                print(self.Sno)
+        def search(self,data):
+                if self.Sno == data:
+                        print("Node is found")
+                        return
+                if str(data) < str(self.Sno):
+                        if self.lchild:
+                                self.lchild.search(data)
+                        else:
+                                print("Node is not present in tree!")
+                else:
+                        if self.rchild:
+                                self.rchild.search(data)
+                        else:
+                                print("Node is not present in tree!")
+root=BST(None,None,None,None)
+print('1.Enter one to insert data')
+print('2.Enter two to search data')
+print('3.Enter three to delete data')
+print('4.Enter four to display data')
+print('Enter 0 to exit')
+dn=int(input('Enter a number'))
+
+if dn==1:
+        emp=eval(input("Enter in the format of list Sno Name Role Salary :"))
+        for i in range(len(emp)+1):
+                root.insert(emp[i],emp[i+1],emp[i+2],emp[i+3])
+                break
+
+elif dn==2:
+        Sno=int(input('Enter the employee ID to search :'))
+        root.search(Sno)
+
+elif dn==3:
+        Id=int(input('Enter the employee ID to delete :'))
+        root.delete(Id)
+elif dn==4:
+        Id=int(input('Enter the employee ID to display :'))
+        root.display(Id)
+elif dn==0:
+        exit()
+
+else:
+        print("Invalid Input please try again.......")
+
+
